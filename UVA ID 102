@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+#define BINS 3
+#define COLORS 3
+#define INF (1 << 30)
+
+int bins[BINS][COLORS];
+char colors[] = {'B', 'C', 'G'};
+
+int main() {
+    while (cin >> bins[0][0] >> bins[0][2] >> bins[0][1] >>
+                  bins[1][0] >> bins[1][2] >> bins[1][1] >>
+                  bins[2][0] >> bins[2][2] >> bins[2][1]) {
+        vector<int> binsDistribution;
+        binsDistribution.push_back(0);
+        binsDistribution.push_back(1);
+        binsDistribution.push_back(2);
+
+        vector<int> best = binsDistribution;
+        int minMoves = INF;
+        do {
+            int moves = 0;
+            for (int i = 0; i < BINS; i++) {
+                for (int j = 0; j < COLORS; j++) {
+                    if (j != binsDistribution[i])
+                        moves += bins[i][j];
+                }
+            }
+            if (moves < minMoves) {
+                minMoves = moves;
+                best = binsDistribution;
+            }
+        } while (next_permutation(binsDistribution.begin(), binsDistribution.end()));
+
+        for (int i = 0; i < BINS; i++) {
+            cout << colors[best[i]];
+        }
+
+        cout << " " << minMoves << endl;
+    }
+    return 0;
+}
